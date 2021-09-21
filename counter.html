@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>counter</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		body,html{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			width: 100%;
+			height: 100%;
+		}
+		#first,#second{
+			display: block;
+			width: 50%;
+			float: left;
+			height: 100%;
+			font-size: 38vw;
+			text-align: center;
+		}
+		#wf,#ws{
+			float: left;
+			width: 50%;
+		}
+		span{
+			display: block;
+			background-color: black;
+			width: 0;
+		}
+		#reset{
+			text-align: center;
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+<div id="wf"><span id="progf">&#160</span></div>
+<div id="ws"><span id="progs">&#160</span></div>
+<div id="first">0</div>
+<div id="second">0</div>
+<div id="reset">reset</div>
+<script type="text/javascript">
+	var counter_fisrt = document.getElementById("first");
+	var counter_second = document.getElementById("second");
+	var prog_fisrt = document.getElementById("progf");
+	var prog_second = document.getElementById("progs");
+	counter_fisrt.onclick = () => {click(1)}
+	counter_second.onclick = () => {click(2)}
+	var cur = 0;
+	var first_score = 0, second_score = 0;
+	var first_progress = 0, second_progress = 0;
+	function reset(){
+	cur = 0;
+	first_score = 0, second_score = 0;
+	first_progress = 0, second_progress = 0;
+	prog_fisrt.style.width = "0";
+	prog_second.style.width = "0";
+	counter_fisrt.textContent = 0;
+	counter_second.textContent = 0;
+	}
+	document.getElementById("reset").onclick = reset;
+	function progress(){
+		if(cur == 1){
+			first_progress++;
+			switch(first_progress){
+				case 1: 
+					prog_fisrt.style.width = "50%";
+				break;
+				case 2:
+					prog_fisrt.style.width = "100%";
+				break;
+				case 3:
+					prog_fisrt.style.width = "0";
+					prog_second.style.width = "50%";
+					cur = 2;
+					first_progress = 0;
+					second_progress = 1;
+				break;
+			}
+		}
+		else{
+			second_progress++;
+			switch(second_progress){
+				case 1: 
+					prog_second.style.width = "50%";
+				break;
+				case 2:
+					prog_second.style.width = "100%";
+				break;
+				case 3:
+					prog_second.style.width = "0";
+					prog_fisrt.style.width = "50%";
+					second_progress = 0;
+					first_progress = 1;
+					cur = 1;
+				break;
+			}
+		}
+	}
+	function click(num){
+		if(cur == 0){
+			cur = num;
+		}
+		if(num == 1){
+			first_score++;
+			counter_fisrt.textContent = first_score;
+		}
+		else{
+			second_score++;
+			counter_second.textContent = second_score;
+		}
+		progress();
+	}
+</script>
+</body>
+</html>
