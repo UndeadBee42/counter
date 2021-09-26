@@ -30,18 +30,25 @@
 			background-color: black;
 			width: 0;
 		}
-		#reset{
+		#control{
 			text-align: center;
 			width: 100%;
+		}
+		#reset,#set{
+			display: inline-block;
+			margin-left: 2%;
 		}
 	</style>
 </head>
 <body>
 <div id="wf"><span id="progf">&#160</span></div>
 <div id="ws"><span id="progs">&#160</span></div>
-<div id="first">0</div>
-<div id="second">0</div>
-<div id="reset">reset</div>
+<div id="first">*</div>
+<div id="second">*</div>
+<div id="control">
+	<div id="reset">reset</div>
+	<div id="set">set</div>
+</div>
 <script type="text/javascript">
 	var counter_fisrt = document.getElementById("first");
 	var counter_second = document.getElementById("second");
@@ -58,61 +65,77 @@
 	first_progress = 0, second_progress = 0;
 	prog_fisrt.style.width = "0";
 	prog_second.style.width = "0";
-	counter_fisrt.textContent = 0;
-	counter_second.textContent = 0;
+	counter_fisrt.textContent = "*";
+	counter_second.textContent = "*";
 	}
 	document.getElementById("reset").onclick = reset;
-	function progress(){
-		if(cur == 1){
-			first_progress++;
-			switch(first_progress){
+	function update(){
+			switch(Number(first_progress)){
+				case 0:
+					prog_fisrt.style.width = "0";
+				break;
 				case 1: 
 					prog_fisrt.style.width = "50%";
 				break;
 				case 2:
 					prog_fisrt.style.width = "100%";
 				break;
-				case 3:
-					prog_fisrt.style.width = "0";
-					prog_second.style.width = "50%";
-					cur = 2;
-					first_progress = 0;
-					second_progress = 1;
-				break;
 			}
-		}
-		else{
-			second_progress++;
-			switch(second_progress){
+			switch(Number(second_progress)){
+				case 0:
+					prog_second.style.width = "0";
+				break;
 				case 1: 
 					prog_second.style.width = "50%";
 				break;
 				case 2:
 					prog_second.style.width = "100%";
 				break;
-				case 3:
-					prog_second.style.width = "0";
-					prog_fisrt.style.width = "50%";
-					second_progress = 0;
-					first_progress = 1;
-					cur = 1;
-				break;
+			}
+		counter_fisrt.textContent = first_score;
+		counter_second.textContent = second_score;
+	}
+	function set(){
+	cur = prompt("cur",cur);
+	first_score = prompt("first_score",first_score), second_score = prompt("second_score",second_score);
+	first_progress = prompt("first_progress",first_progress), second_progress = prompt("second_progress",second_progress);
+	update();
+	}
+	document.getElementById("set").onclick = set;
+	function progress(){
+		if(cur == 1){
+			first_progress++;
+			if(first_progress == 3){
+				cur = 2;
+				first_progress = 0;
+				second_progress = 1;	
 			}
 		}
+		else{
+			second_progress++;
+			if(second_progress == 3){
+				second_progress = 0;
+				first_progress = 1;
+				cur = 1;
+			}
+		}
+		update();
 	}
 	function click(num){
 		if(cur == 0){
 			cur = num;
-		}
-		if(num == 1){
-			first_score++;
-			counter_fisrt.textContent = first_score;
+			counter_fisrt.textContent = 0;
+			counter_second.textContent = 0;
 		}
 		else{
+			if(num == 1){
+			first_score++;
+		}
+		if(num == 2){
 			second_score++;
-			counter_second.textContent = second_score;
 		}
 		progress();
+		}
 	}
 </script>
 </body>
