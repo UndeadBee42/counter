@@ -104,18 +104,16 @@
 	document.getElementById("set").onclick = set;
 	function progress(){
 		if(cur == 1){
-			first_progress++;
-			if(first_progress == 3){
+			first_progress--;
+			if(first_progress == 0){
 				cur = 2;
-				first_progress = 0;
-				second_progress = 1;	
+				second_progress = 2;	
 			}
 		}
 		else{
-			second_progress++;
-			if(second_progress == 3){
-				second_progress = 0;
-				first_progress = 1;
+			second_progress--;
+			if(second_progress == 0){
+				first_progress = 2;
 				cur = 1;
 			}
 		}
@@ -126,6 +124,13 @@
 			cur = num;
 			counter_fisrt.textContent = 0;
 			counter_second.textContent = 0;
+			if(num == 1){
+				first_progress = 2;
+			}
+			if(num == 2){
+				second_progress = 2;
+			}
+			update();
 		}
 		else{
 			if(num == 1){
